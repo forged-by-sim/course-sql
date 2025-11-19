@@ -35,4 +35,3 @@ I found the ERD examples helpful for visualizing how complex systems (like cours
 
 ⸻
 
-📁 *Next: [Module 4 – JSON Export Project →](../module4-many-to-many/README_module4_course_sql.md)*  

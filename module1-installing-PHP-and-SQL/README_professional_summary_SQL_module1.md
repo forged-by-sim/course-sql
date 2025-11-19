@@ -40,4 +40,3 @@ I skipped installing XAMPP/MAMP for MySQL initially, but later revisited this fo
 
 ⸻
 
-📁 *Next: Explore [Module 2 – SQL Table Assignment →](../module2-introduction-to-structured-query-language/README_module2_course_sql.md)*  
