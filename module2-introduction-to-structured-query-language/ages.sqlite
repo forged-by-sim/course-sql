@@ -1,0 +1,12 @@
+CREATE TABLE Ages ( 
+  `name` VARCHAR(128), 
+  age INTEGER
+);
+
+DELETE FROM Ages;
+INSERT INTO Ages (`name`, age) VALUES ('Akam', 13);
+INSERT INTO Ages (`name`, age) VALUES ('Oisin', 21);
+INSERT INTO Ages (`name`, age) VALUES ('Mhirren', 34);
+INSERT INTO Ages (`name`, age) VALUES ('Aleeshmah', 25);
+INSERT INTO Ages (`name`, age) VALUES ('Nana', 33);
+INSERT INTO Ages (`name`, age) VALUES ('Blythe', 28);

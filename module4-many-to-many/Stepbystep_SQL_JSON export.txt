@@ -1,0 +1,148 @@
+Assignment 2 — Final SQL Normalization Project (Roster)
+What You’re Going to Do
+
+Now we’ll make a real database like a teacher’s gradebook.
+It’ll remember:
+
+who the students are,
+
+which classes exist, and
+
+who teaches which class.
+
+
+
+Step 1 — Open phpMyAdmin
+
+Same as before:
+
+Open XAMPP → start Apache + MySQL
+
+Go to http://localhost/phpmyadmin
+
+
+
+Step 2 — Create a New Database
+
+Click Databases → Create new database
+
+Call it roster
+
+Click Create
+
+
+
+Step 3 — Create the Tables
+
+Paste and run:
+
+CREATE TABLE User (
+  user_id INTEGER NOT NULL AUTO_INCREMENT,
+  name VARCHAR(128) UNIQUE,
+  PRIMARY KEY(user_id)
+);
+
+CREATE TABLE Course (
+  course_id INTEGER NOT NULL AUTO_INCREMENT,
+  title VARCHAR(128) UNIQUE,
+  PRIMARY KEY(course_id)
+);
+
+CREATE TABLE Member (
+  user_id INTEGER,
+  course_id INTEGER,
+  role INTEGER,
+  PRIMARY KEY(user_id, course_id),
+  FOREIGN KEY (user_id) REFERENCES User(user_id),
+  FOREIGN KEY (course_id) REFERENCES Course(course_id)
+);
+
+Now we have three tables like Lego blocks:
+
+User = people
+
+Course = classes
+
+Member = connection between them
+
+
+
+Step 4 — Add Some Users
+
+INSERT INTO User (name) VALUES
+('Jane'), ('Ed'), ('Sue'), ('Sally'), ('Bob');
+
+
+
+
+Step 5 — Add Some Courses
+
+INSERT INTO Course (title) VALUES
+('si106'), ('si110'), ('si206');
+
+
+
+
+Step 6 — Connect Them (Who is in What)
+
+INSERT INTO Member (user_id, course_id, role) VALUES
+(1, 1, 1),
+(2, 1, 0),
+(3, 1, 0),
+(4, 1, 0),
+(5, 1, 0);
+
+
+(You can add more if you like.)
+
+role = 1 means teacher
+
+role = 0 means student
+
+
+
+
+
+Step 7 — Look at Everything
+
+SELECT User.name, Course.title, Member.role
+FROM User
+JOIN Member ON User.user_id = Member.user_id
+JOIN Course ON Member.course_id = Course.course_id
+ORDER BY Course.title, User.name;
+
+
+This is like asking:
+
+“Hey database, show me all the students and teachers for every class.”
+
+
+
+
+Step 8 — Save as JSON
+
+In phpMyAdmin, click your database name (roster)
+
+Click Export → Format: JSON → Go
+
+It saves a file like roster.json
+
+This file shows your whole database neatly, like:
+
+{"course":[{"course_id":"1","title":"si106"}]}
+
+
+
+
+
+Step 9 — Done!
+
+You’ve just:
+✅ Created 3 connected tables
+✅ Linked them with foreign keys
+✅ Queried them with JOIN
+✅ Exported to JSON
+
+You’ve basically done Database Normalization — organizing information so nothing is duplicated.
+
+

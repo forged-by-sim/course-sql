@@ -1,0 +1,37 @@
+import sqlite3
+import hashlib
+
+# Connect to the SQLite database (creates file if it doesn't exist)
+conn = sqlite3.connect('ages.sqlite')
+cur = conn.cursor()
+
+# Step 1: Setup table
+cur.execute('DROP TABLE IF EXISTS Ages')
+cur.execute('CREATE TABLE Ages (name TEXT, age INTEGER)')
+
+# Step 2: Insert rows
+data = [
+    ('Akam', 13),
+    ('Oisin', 21),
+    ('Mhirren', 34),
+    ('Aleeshmah', 25),
+    ('Nana', 33),
+    ('Blythe', 28)
+]
+cur.executemany('INSERT INTO Ages (name, age) VALUES (?, ?)', data)
+
+# Step 3: Query and hash in Python
+cur.execute('SELECT name, age FROM Ages')
+hashes = []
+
+for row in cur:
+    combined = f"{row[0]}{row[1]}"
+    hashed = hashlib.sha1(combined.encode()).hexdigest()
+    hashes.append(hashed)
+
+# Step 4: Sort and print first one
+hashes.sort()
+print("First SHA1 hash:", hashes[0])
+
+# Clean up
+cur.close()

@@ -1,0 +1,190 @@
+XAMPP Setup Steps (for Windows)
+1. Start Services
+
+In your XAMPP Control Panel:
+
+Click Start next to Apache
+
+Click Start next to MySQL
+You should see both turning green. 
+
+
+
+
+
+2.  Open phpMyAdmin
+
+Open your browser
+
+Go to: http://localhost/phpmyadmin
+
+
+
+
+Step-by-Step: Create and Select the Correct Database
+1.	Go to the phpMyAdmin home page
+
+In the left panel, click on "New" just under the phpMyAdmin logo.
+
+2. Create the new database
+
+In the "Create database" field, type exactly:
+
+roster
+
+Leave collation as default (or choose utf8_general_ci).
+
+Click Create.
+
+You should now see the new database named roster appear on the left panel.
+
+
+
+
+Step 2: Select the roster Database
+
+Click on roster in the left sidebar.
+
+Then click the SQL tab at the top.
+
+
+
+
+
+Step 3: Paste in the SQL Code
+
+Once you're in the SQL tab of the roster database, paste in this code (just the first block to test):
+
+DROP TABLE IF EXISTS Member;
+DROP TABLE IF EXISTS `User`;
+DROP TABLE IF EXISTS Course;
+
+CREATE TABLE `User` (
+    user_id     INTEGER NOT NULL AUTO_INCREMENT,
+    name        VARCHAR(128) UNIQUE,
+    PRIMARY KEY(user_id)
+) ENGINE=InnoDB CHARACTER SET=utf8;
+
+CREATE TABLE Course (
+    course_id     INTEGER NOT NULL AUTO_INCREMENT,
+    title         VARCHAR(128) UNIQUE,
+    PRIMARY KEY(course_id)
+) ENGINE=InnoDB CHARACTER SET=utf8;
+
+CREATE TABLE Member (
+    user_id       INTEGER,
+    course_id     INTEGER,
+    role          INTEGER,
+    CONSTRAINT FOREIGN KEY (user_id) REFERENCES `User` (user_id)
+      ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FOREIGN KEY (course_id) REFERENCES Course (course_id)
+      ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (user_id, course_id)
+) ENGINE=InnoDB CHARACTER SET=utf8;
+
+Then click Go.
+
+You should see “Query OK” and all 3 tables created.
+
+
+
+Once you see that message:
+
+MySQL returned an empty result set (i.e. zero rows).
+
+is exactly what we want when creating tables. It's saying:
+
+✅ The query ran with no errors
+
+✅ The tables User, Course, and Member were successfully created
+
+🚫 No data was inserted (yet), which is expected at this step
+
+
+
+
+
+Next Step: Insert the Data
+
+Now let’s add the actual user, course, and member info.
+
+Make sure you’re still in the roster database
+
+Go to the SQL tab again
+
+Paste this SQL code and click Go:
+
+-- Insert Users
+INSERT INTO `User` (name) VALUES
+('Blaine'), ('Kady'), ('Maighdlin'), ('Mali'), ('Zeynep'),
+('Dion'), ('Bogdan'), ('Danica'), ('Ruo'), ('Savannah'),
+('Kadyn'), ('Chahat'), ('Elyana'), ('Emaan'), ('Rafif');
+
+-- Insert Courses
+INSERT INTO Course (title) VALUES
+('si106'), ('si110'), ('si206');
+
+-- Insert Members
+-- si106
+INSERT INTO Member (user_id, course_id, role)
+SELECT u.user_id, c.course_id, 1 FROM `User` u, Course c WHERE u.name = 'Blaine' AND c.title = 'si106';
+INSERT INTO Member (user_id, course_id, role)
+SELECT u.user_id, c.course_id, 0 FROM `User` u, Course c WHERE u.name = 'Kady' AND c.title = 'si106';
+INSERT INTO Member (user_id, course_id, role)
+SELECT u.user_id, c.course_id, 0 FROM `User` u, Course c WHERE u.name = 'Maighdlin' AND c.title = 'si106';
+INSERT INTO Member (user_id, course_id, role)
+SELECT u.user_id, c.course_id, 0 FROM `User` u, Course c WHERE u.name = 'Mali' AND c.title = 'si106';
+INSERT INTO Member (user_id, course_id, role)
+SELECT u.user_id, c.course_id, 0 FROM `User` u, Course c WHERE u.name = 'Zeynep' AND c.title = 'si106';
+
+-- si110
+INSERT INTO Member (user_id, course_id, role)
+SELECT u.user_id, c.course_id, 1 FROM `User` u, Course c WHERE u.name = 'Dion' AND c.title = 'si110';
+INSERT INTO Member (user_id, course_id, role)
+SELECT u.user_id, c.course_id, 0 FROM `User` u, Course c WHERE u.name = 'Bogdan' AND c.title = 'si110';
+INSERT INTO Member (user_id, course_id, role)
+SELECT u.user_id, c.course_id, 0 FROM `User` u, Course c WHERE u.name = 'Danica' AND c.title = 'si110';
+INSERT INTO Member (user_id, course_id, role)
+SELECT u.user_id, c.course_id, 0 FROM `User` u, Course c WHERE u.name = 'Ruo' AND c.title = 'si110';
+INSERT INTO Member (user_id, course_id, role)
+SELECT u.user_id, c.course_id, 0 FROM `User` u, Course c WHERE u.name = 'Savannah' AND c.title = 'si110';
+
+-- si206
+INSERT INTO Member (user_id, course_id, role)
+SELECT u.user_id, c.course_id, 1 FROM `User` u, Course c WHERE u.name = 'Kadyn' AND c.title = 'si206';
+INSERT INTO Member (user_id, course_id, role)
+SELECT u.user_id, c.course_id, 0 FROM `User` u, Course c WHERE u.name = 'Chahat' AND c.title = 'si206';
+INSERT INTO Member (user_id, course_id, role)
+SELECT u.user_id, c.course_id, 0 FROM `User` u, Course c WHERE u.name = 'Elyana' AND c.title = 'si206';
+INSERT INTO Member (user_id, course_id, role)
+SELECT u.user_id, c.course_id, 0 FROM `User` u, Course c WHERE u.name = 'Emaan' AND c.title = 'si206';
+INSERT INTO Member (user_id, course_id, role)
+SELECT u.user_id, c.course_id, 0 FROM `User` u, Course c WHERE u.name = 'Rafif' AND c.title = 'si206';
+
+You should see green “Query OK” messages for each section.
+
+
+
+
+
+
+After That: Let’s Export to JSON!
+
+Once the data is in:
+
+Click roster in the left sidebar again
+
+Go to the Export tab
+
+Select:
+
+Custom – display all possible options
+
+Format: JSON
+
+Save output to file
+
+Uncheck “pretty print”
+
+Click Go and download roster.json
+

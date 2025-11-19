@@ -1,0 +1,106 @@
+Assignment 1 — The Ages Table
+What You’re Going to Do
+
+We’re going to make a tiny database that remembers people’s names and ages.
+Think of it like a digital notebook.
+
+
+
+Step 1 — Open phpMyAdmin in XAMPP
+
+Open XAMPP Control Panel.
+
+Click Start next to Apache and MySQL.
+
+Open your browser and type:
+
+http://localhost/phpmyadmin
+
+→ This opens a website that lets you talk to your database.
+
+
+
+Step 2 — Create a New Database
+
+In phpMyAdmin, click Databases → Create new database.
+
+Type demo_db as the name.
+
+Choose utf8mb4_general_ci for “Collation.”
+
+Click Create.
+
+This is like opening a brand-new notebook where we’ll write our table.
+
+
+
+Step 3 — Create the “Ages” Table
+
+Click on your new database (demo_db).
+
+Click the SQL tab (top menu).
+
+Paste this code and press Go:
+
+CREATE TABLE Ages (
+  name VARCHAR(128),
+  age INTEGER
+);
+
+This makes a table with two boxes:
+
+name for the person’s name
+
+age for their age
+
+
+
+Step 4 — Add Data (the People)
+
+Now let’s write inside our table.
+
+Paste and run this:
+
+DELETE FROM Ages;
+INSERT INTO Ages (name, age) VALUES ('Akam', 13);
+INSERT INTO Ages (name, age) VALUES ('Oisin', 21);
+INSERT INTO Ages (name, age) VALUES ('Mhirren', 34);
+INSERT INTO Ages (name, age) VALUES ('Aleeshmah', 25);
+INSERT INTO Ages (name, age) VALUES ('Nana', 33);
+INSERT INTO Ages (name, age) VALUES ('Blythe', 28);
+
+You just added 6 people! 🎉
+
+
+
+Step 5 — See What’s Inside
+
+Run: 
+
+SELECT * FROM Ages;
+
+Now you’ll see a list of names and ages.
+
+You can also sort them by age:
+
+SELECT * FROM Ages ORDER BY age DESC;
+
+
+
+Step 6 — (Optional) Make a Secret Code
+
+If you want to make a “magic number” out of each person’s name + age, try:
+
+SELECT HEX(MD5(CONCAT(name, age))) AS code FROM Ages ORDER BY code LIMIT 1;
+
+That makes a unique hash (like a fingerprint) for your data.
+
+Step 7 — Save Your Work
+
+Click Export → SQL or Export → JSON to download your table.
+Now you can upload it to GitHub or share it with a friend.
+
+
+
+
+
